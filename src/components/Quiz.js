@@ -8,12 +8,13 @@ import { useContext } from "react";
 import { GameStateContext } from "../helpers/Contexts";
 
 function Quiz() {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
   const [optionChosen, setOptionChosen] = useState("");
   const [lvlDifficulty, setDifficulty] = useState("débutant");
   const [nbrPV, setPV] = useState(2);
   const [tirageAleatoire, setTirageAleatoire] = useState(Math.floor(Math.random() * Questions[0]["quizz"][lvlDifficulty].length));
   const [isSelect, setIsSelect] = useState(false);
+  
+  console.log(Questions[0]["quizz"][lvlDifficulty][tirageAleatoire]);
 
   const { score, setScore, gameState, setGameState, userName } = useContext(
     GameStateContext
@@ -37,20 +38,19 @@ function Quiz() {
   }
 
   const nextQuestion = () => {
-    
+    setTirageAleatoire(Math.floor(Math.random() * Questions[0]["quizz"][lvlDifficulty].length));
+    console.log(Questions[0]["quizz"][lvlDifficulty][tirageAleatoire]);
     // Si la réponse est bonne
     if (Questions[0]["quizz"][lvlDifficulty][tirageAleatoire]["réponse"] === optionChosen) {
       setScore(score + 1);
       Questions[0]["quizz"][lvlDifficulty].splice(tirageAleatoire, 1);
-      
-      
       if( (score === 20 ) && (lvlDifficulty === "débutant") ) {
         setDifficulty("confirmé");
       } else if ( (score === 40) && (lvlDifficulty === "confirmé") ) {
         setDifficulty("expert");
       }
       resetSelectedButton();
-      setTirageAleatoire(Math.floor(Math.random() * Questions[0]["quizz"][lvlDifficulty].length));
+      
     } else {
       setPV(nbrPV - 1);
       if(nbrPV < 1) {
@@ -81,6 +81,7 @@ function Quiz() {
       
       <div className="Questions">
       <h1>{Questions[0]["quizz"][lvlDifficulty][tirageAleatoire]["question"]}</h1>
+      <div className="AnswerButton">
         <button className="Answer" id="0"
           onClick={(event) => {
             setSelectedButton(event);
@@ -113,6 +114,7 @@ function Quiz() {
         >
           {Questions[0]["quizz"][lvlDifficulty][tirageAleatoire]["propositions"][3]}
         </button>
+        </div>
       </div>
       {console.log(lvlDifficulty)}
       {(lvlDifficulty === "expert") && (score === 100) ? (
