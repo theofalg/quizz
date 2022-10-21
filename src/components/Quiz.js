@@ -39,14 +39,14 @@ function Quiz() {
   const nextQuestion = () => {
     
     // Si la réponse est bonne
-    if (Questions[0]["quizz"][lvlDifficulty][tirageAleatoire]["réponse"] == optionChosen) {
+    if (Questions[0]["quizz"][lvlDifficulty][tirageAleatoire]["réponse"] === optionChosen) {
       setScore(score + 1);
       Questions[0]["quizz"][lvlDifficulty].splice(tirageAleatoire, 1);
       
       
-      if( (score == 20 ) && (lvlDifficulty == "débutant") ) {
+      if( (score === 20 ) && (lvlDifficulty === "débutant") ) {
         setDifficulty("confirmé");
-      } else if ( (score == 40) && (lvlDifficulty == "confirmé") ) {
+      } else if ( (score === 40) && (lvlDifficulty === "confirmé") ) {
         setDifficulty("expert");
       }
       resetSelectedButton();
@@ -64,7 +64,7 @@ function Quiz() {
   };
 
   const finishQuiz = () => {
-    if (Questions[0]["quizz"][lvlDifficulty][tirageAleatoire]["réponse"] == optionChosen) {
+    if (Questions[0]["quizz"][lvlDifficulty][tirageAleatoire]["réponse"] === optionChosen) {
       setScore(score + 1);
     }
     setGameState("finished");
@@ -115,7 +115,7 @@ function Quiz() {
         </button>
       </div>
       {console.log(lvlDifficulty)}
-      {(lvlDifficulty === "expert") && (score == 100) ? (
+      {(lvlDifficulty === "expert") && (score === 100) ? (
         <button onClick={finishQuiz} id="nextQuestion">
           Dernière question Quiz
         </button>
